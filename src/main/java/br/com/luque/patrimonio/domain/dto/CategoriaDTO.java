@@ -7,6 +7,9 @@ import lombok.Data;
 @Data
 public class CategoriaDTO {
     
+    @Basic(optional = true)
+    private Integer codigo;
+
     @Basic(optional = false)
     private String descricao;
 
