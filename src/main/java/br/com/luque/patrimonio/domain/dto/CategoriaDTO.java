@@ -1,16 +1,15 @@
 package br.com.luque.patrimonio.domain.dto;
 
-import javax.persistence.Basic;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
 @Data
 public class CategoriaDTO {
     
-    @Basic(optional = true)
     private Integer codigo;
 
-    @Basic(optional = false)
+    @NotBlank(message = "Descrição não pode estar em branco")
     private String descricao;
 
 }
