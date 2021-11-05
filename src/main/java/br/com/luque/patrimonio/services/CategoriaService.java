@@ -19,22 +19,30 @@ public class CategoriaService {
     private CategoriaRepository categoriaRepository;
 
     public Categoria adicionar(CategoriaDTO dto){
-        if(ObjectUtils.isEmpty(dto) || dto.getDescricao().isBlank()){
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY,"Descrição não pode ser vazia.");
-        }
-
         Categoria categoria = Categoria.builder().descricao(dto.getDescricao()).build();
         return categoriaRepository.save(categoria);
     }
 
-    public void remover(CategoriaDTO dto){
-        if (ObjectUtils.isEmpty(dto) || dto.getCodigo().toString().isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY,"Código não pode ser vazio");
+    public void remover(Integer codCategoria){
+        categoriaRepository.delete(findCategoria(codCategoria));
+    }
+
+    public void alterar(CategoriaDTO dto, Integer codCategoria){
+        Categoria categoria = findCategoria(codCategoria);
+
+        categoria.setDescricao(dto.getDescricao());
+        categoriaRepository.save(categoria);
+    }    
+
+    public Categoria consultaPorId(Integer codCategoria){
+        return findCategoria(codCategoria);
+    }    
+
+    public Categoria findCategoria(Integer codCategoria) {
+        Optional<Categoria> categoria = categoriaRepository.findById(codCategoria);
+        if (!categoria.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Código da categoria não encontrado");
         }
-        Optional<Categoria> categoria = categoriaRepository.findById(dto.getCodigo());
-        if (!categoria.isPresent()){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,"Código não encontrado");
-        }
-        categoriaRepository.delete(categoria.get());
+        return categoria.get();
     }
 }

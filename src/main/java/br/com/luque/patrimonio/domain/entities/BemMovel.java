@@ -8,10 +8,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "bem_movel")
 @AttributeOverride(name = "codigo", column = @Column(name = "cd_bem_movel"))
 public class BemMovel extends BaseEntity {
@@ -22,7 +28,7 @@ public class BemMovel extends BaseEntity {
     @Column(name = "no_marca", length = 45, nullable = true)
     private String marca;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "cd_categoria", referencedColumnName = "cd_categoria")
     private Categoria categoria;
 

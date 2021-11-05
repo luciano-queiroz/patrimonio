@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,45 +17,45 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.luque.patrimonio.config.ApplicationConstants;
-import br.com.luque.patrimonio.domain.dto.CategoriaDTO;
-import br.com.luque.patrimonio.domain.entities.Categoria;
-import br.com.luque.patrimonio.services.CategoriaService;
+import br.com.luque.patrimonio.domain.dto.BemMovelDTO;
+import br.com.luque.patrimonio.domain.entities.BemMovel;
+import br.com.luque.patrimonio.services.BemMovelService;
 
 @RestController
 @RequestMapping(ApplicationConstants.API_VERSION)
 @Validated
-public class CategoriaResource {
+public class BemMovelResource {
 
     @Autowired
-    private CategoriaService categoriaService;
+    private BemMovelService bemMovelService;
 
-    @PostMapping(path = "/categoria")
+    @PostMapping(path = "/bemmovel")
     @ResponseStatus(HttpStatus.CREATED)
-    public Categoria postCategoria(@RequestBody @Valid CategoriaDTO body){
-        return categoriaService.adicionar(body);
+    public BemMovel postBemMovel(@RequestBody @Valid BemMovelDTO body){
+        return bemMovelService.adiciona(body);
     }
 
-    @DeleteMapping(path = "/categoria/{codigo}")
+    @DeleteMapping(path = "/bemmovel")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteCategoria(
-        @PathVariable Integer codigo){
-        categoriaService.remover(codigo);
+    public void deleteBemMovel(@RequestHeader Integer codigo){
+        bemMovelService.remover(codigo);
     }
 
-    @PutMapping(path = "/categoria/{codigo}")
+    @PutMapping(path = "/bemmovel")
     @ResponseStatus(HttpStatus.OK)
-    public void alterarCategoria(
-        @RequestBody @Valid CategoriaDTO body,
-        @PathVariable Integer codigo){
+    public void alterarBemMovel(
+        @RequestBody @Valid BemMovelDTO body,
+        @RequestHeader Integer codigo){
 
-        categoriaService.alterar(body, codigo);
+        bemMovelService.alterar(body, codigo);
     }
 
-    @GetMapping(path = "/categoria/{codigo}")
+    @GetMapping(path = "/bemmovel")
     @ResponseStatus(HttpStatus.OK)
-    public Categoria consultaCategoriaPorId(
-        @PathVariable Integer codigo){
+    public BemMovel consultaBemMovelPorId(
+        @RequestHeader Integer codigo){
             
-        return categoriaService.consultaPorId(codigo);
-    }    
+        return bemMovelService.consultaPorId(codigo);
+    }        
+    
 }
